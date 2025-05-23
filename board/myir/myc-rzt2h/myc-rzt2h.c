@@ -149,6 +149,16 @@ void s_init(void)
 
 	/* Setting xSPI1 CS0 End Address */
 	*(volatile u32 *)CS0ENDAD_xSPI(1) = 0x57FFFFFF;
+    /* P08_5 */
+    *(volatile u8 *)PMC(8) &= ~BIT(5);
+    *(volatile u8 *)P(8) &= ~BIT(5);
+    *(volatile u16 *)PM(8) |= (0x3 << 10);
+ 
+    /* P32_3 */
+    *(volatile u8 *)PMC(32) &= ~BIT(3);
+    *(volatile u8 *)P(32) &= ~BIT(3);
+    *(volatile u16 *)PM(32) |= (0x3 << 6);
+ 
 
 	/* P2_5_SD0_PWEN_A */
 	*(volatile u8 *)PMC(2) |= BIT(5);
@@ -160,8 +170,8 @@ void s_init(void)
 	*(volatile u16 *)PM(2) |= (0x3 << 12);
 
 	/* P8_5_SD1_PWEN_A Output HIGH */
-	*(volatile u8 *)PMC(8) |= BIT(5);
-	*(volatile u64 *)PFC(8) = (*(volatile u64 *)PFC(8) & 0xffff00ffffffffff) | ((u64)0x29 << 40);
+	//*(volatile u8 *)PMC(8) |= BIT(5);
+	//*(volatile u64 *)PFC(8) = (*(volatile u64 *)PFC(8) & 0xffff00ffffffffff) | ((u64)0x29 << 40);
 
 	/* P8_6_SD1_IOVS_A Output LOW */
 	*(volatile u8 *)PMC(8) &= ~BIT(6);
@@ -172,9 +182,13 @@ void s_init(void)
 	*(volatile u32 *)MSTPCRM &= ~(MSTPCRM_SDHI0 | MSTPCRM_SDHI1);
 
 	/* Release PHY3 Reset state  P32_3 */
-	*(volatile u8 *)PMC(32) &= ~BIT(3);
-	*(volatile u8 *)P(32) |= BIT(3);
-	*(volatile u16 *)PM(32) |= (0x3 << 6);
+	//*(volatile u8 *)PMC(32) &= ~BIT(3);
+	//*(volatile u8 *)P(32) |= BIT(3);
+	//*(volatile u16 *)PM(32) |= (0x3 << 6);
+     /* Release PHY3 Reset state  P00_5 */
+    *(volatile u8 *)PMC(0) &= ~BIT(5);
+    *(volatile u8 *)P(0) |= BIT(5);
+    *(volatile u16 *)PM(0) |= (0x3 << 10);
 
 	/* ETH3 PIN */
 	/* ETH3_TXCLK, ETH3_TXD[0], ETH3_TXD[1], ETH3_TXD[2], ETH3_TXD[3], ETH3_TXEN, ETH3_RXCLK, ETH3_RXD[0],
@@ -335,18 +349,18 @@ int board_init(void)
 	ethss_init_hw(0x6);
 
 	/* ETHSS: GMAC1 RGMII_ID mode on port ETH3 */
-	ret = ethss_config(3, PHY_INTERFACE_MODE_RGMII_ID);
+	ret = ethss_config(3, PHY_INTERFACE_MODE_MII);
 	if (ret < 0)
 		return ret;
 	/* Set up speed for Converters for GMAC1 */
-	ethss_link_up(3, PHY_INTERFACE_MODE_RGMII_ID, SPEED_1000, DUPLEX_FULL);
+	ethss_link_up(3, PHY_INTERFACE_MODE_MII, SPEED_100, DUPLEX_FULL);
 
 	/* ETHSS: GMAC2 MII mode on port ETH2 */
-	ret = ethss_config(2, PHY_INTERFACE_MODE_RGMII_ID);
+	ret = ethss_config(2, PHY_INTERFACE_MODE_MII);
 	if (ret < 0)
 		return ret;
 	/* Set up speed for Converters for GMAC2 */
-	ethss_link_up(2, PHY_INTERFACE_MODE_RGMII_ID, SPEED_1000, DUPLEX_FULL);
+	ethss_link_up(2, PHY_INTERFACE_MODE_MII, SPEED_100, DUPLEX_FULL);
 
 	board_usb_init();
 
