@@ -238,6 +238,13 @@ config TARGET_RZN2H_DEV
         help
           Support for Renesas RZ/N2H Dev Platform
 
+config TARGET_MYC_RZT2H
+        bool "MYIR RZ/T2H Dev board"
+        help
+          Support for Renesas RZ/T2H Dev Platform
+
+
+
 endchoice
 
 config SYS_SOC
@@ -259,6 +266,7 @@ source "board/renesas/rzg2lc-dev/Kconfig"
 source "board/renesas/rzg2ul-dev/Kconfig"
 source "board/renesas/rzt2h-dev/Kconfig"
 source "board/renesas/rzn2h-dev/Kconfig"
+source "board/myir/myc-rzt2h/Kconfig"
 
 config MULTI_DTB_FIT_UNCOMPRESS_SZ
 	default 0x80000 if TARGET_HIHOPE_RZG2
