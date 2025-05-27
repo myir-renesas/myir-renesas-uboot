@@ -12,7 +12,7 @@
 #include "r9a09g077-u-boot.dtsi"
 
 / {
-	model = "Renesas Development EVK based on r9a09g077m44";
+	model = "MYIR Development EVK based on r9a09g077m44";
 	compatible = "renesas,r9a09g077m44-dev", "renesas,r9a09g077m44", "renesas,r9a09g077";
 
 
@@ -36,7 +36,7 @@
 
 	memory@240000000 {
 		device_type = "memory";
-		reg = <0x2 0x40000000 0x1 0xC0000000>;
+		reg = <0x2 0x40000000 0x0 0x40000000>;
 	};
 
 	reg_1p8v: regulator0 {
