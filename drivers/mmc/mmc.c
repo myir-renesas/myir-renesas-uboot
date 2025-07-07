@@ -2923,7 +2923,7 @@ int mmc_start_init(struct mmc *mmc)
 		return -ENOMEDIUM;
 	}
 
-	err = mmc_get_op_cond(mmc, false);
+	err = mmc_get_op_cond(mmc, true);
 
 	if (!err)
 		mmc->init_in_progress = 1;
