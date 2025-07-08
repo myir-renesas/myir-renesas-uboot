@@ -64,14 +64,14 @@
 	"image=Image\0" \
 	"fdt_file=" CONFIG_DEFAULT_FDT_FILE "\0" \
 	"fdt_addr=0xC5F00000\0" \
-	"prodsdbootargs=setenv bootargs rw rootwait earlycon root=/dev/mmcblk1p2 \0" \
-	"prodemmcbootargs=setenv bootargs rw rootwait earlycon root=/dev/mmcblk0p2 \0" \
+	"prodsdbootargs=setenv bootargs rw rootwait earlycon console=ttySC0,115200 root=/dev/mmcblk1p2 \0" \
+	"prodemmcbootargs=setenv bootargs rw rootwait earlycon console=ttySC0,115200 root=/dev/mmcblk0p1 \0" \
 	"bootimage=booti 0xc4200000 - 0xC5F00000\0" \
-	"emmcload=ext4load mmc 0:2 0xc4200000 boot/Image;ext4load mmc 0:2 ${fdt_addr} boot/${fdt_file};run prodemmcbootargs \0" \
-	"sd1load=ext4load mmc 1:2 0xc4200000 boot/Image;ext4load mmc 1:2 ${fdt_addr} boot/${fdt_file};run prodsdbootargs \0" \
+	"emmcload=ext4load mmc 0:1 0xc4200000 boot/${image};ext4load mmc 0:1 ${fdt_addr} boot/${fdt_file};run prodemmcbootargs \0" \
+	"sd1load=ext4load mmc 1:2 0xc4200000 boot/${image};ext4load mmc 1:2 ${fdt_addr} boot/${fdt_file};run prodsdbootargs \0" \
 	"mmcload=fatload mmc 0:1 0xc4200000 ${image};fatload mmc 0:1 ${fdt_addr} ${fdt_file};run prodemmcbootargs \0" \
 	"sdload=fatload mmc 1:1 0xc4200000 ${image};fatload mmc 1:1 ${fdt_addr} ${fdt_file};run prodsdbootargs \0" \
-	"bootcmd_check=if mmc dev 1; then if fatload mmc 1:1 0xc4200000 ${image}; then run sdload; else run mmcload; fi;else run mmcload; fi \0" 
+	"bootcmd_check=if mmc dev 1; then if fatload mmc 1:1 0xc4200000 ${image}; then run sdload; else mmc dev 0; run emmcload; fi;else mmc dev 0; run emmcload; fi \0" 
 
 //#define CONFIG_BOOTCOMMAND	"env default -a;run bootcmd_check;run bootimage"
 #define CONFIG_BOOTCOMMAND	"run bootcmd_check;run bootimage"
