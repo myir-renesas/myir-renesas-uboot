@@ -62,10 +62,11 @@
 	"usb_pgood_delay=2000\0" \
 	"bootm_size=0x10000000\0" \
 	"image=Image\0" \
+	"loglevel=3\0" \
 	"fdt_file=" CONFIG_DEFAULT_FDT_FILE "\0" \
 	"fdt_addr=0xC5F00000\0" \
-	"prodsdbootargs=setenv bootargs rw rootwait earlycon console=ttySC0,115200 root=/dev/mmcblk1p2 \0" \
-	"prodemmcbootargs=setenv bootargs rw rootwait earlycon console=ttySC0,115200 loglevel=3 root=/dev/mmcblk0p2 \0" \
+	"prodsdbootargs=setenv bootargs rw rootwait earlycon console=ttySC0,115200 loglevel=${loglevel} root=/dev/mmcblk1p2 \0" \
+	"prodemmcbootargs=setenv bootargs rw rootwait earlycon console=ttySC0,115200 loglevel=${loglevel} root=/dev/mmcblk0p2 \0" \
 	"bootimage=booti 0xc4200000 - 0xC5F00000\0" \
 	"emmcload=ext4load mmc 0:2 0xc4200000 boot/${image};ext4load mmc 0:2 ${fdt_addr} boot/${fdt_file};run prodemmcbootargs \0" \
 	"sd1load=ext4load mmc 1:2 0xc4200000 boot/${image};ext4load mmc 1:2 ${fdt_addr} boot/${fdt_file};run prodsdbootargs \0" \
